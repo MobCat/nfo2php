@@ -13,7 +13,7 @@ php rendering engine for ascii art nfo docs<br>
        \/\\\  \//\\\\\\  \/\\\          \///\\\__/\\\       /\\\/__________  \/\\\             \/\\\       \/\\\ \/\\\               
         \/\\\   \//\\\\\  \/\\\            \///\\\\\/       /\\\\\\\\\\\\\\\  \/\\\             \/\\\       \/\\\ \/\\\              
          \///     \/////   \///               \/////        \///////////////   \///              \///        \///  \///              
-nfo2php 20250915
+nfo2php 20250917
 By MobCat
 
 nfo2php is a simple rendering "engine" that will convert your nfo files and display them as text for a web page.
@@ -42,6 +42,9 @@ This conversion is done in place and on the fly, so the original nfo file is not
     "nfoPath": "razor1911.nfo",
     "textColor": "FFDF00",
     "screenColor": "222",
+    "title": "nfo2php example",
+    "description": "Your description for META tag goes here",
+    "icon": "https://mobcat.zip/BadRepack/icon.png",
     "customLinks": {
         "MobCat.zip": ["https://mobcat.zip/map"," target=\'_blank\'"],
         "Example 2":  ["http://example.com/file.zip"," download"],
@@ -56,7 +59,16 @@ This conversion is done in place and on the fly, so the original nfo file is not
 │   "textColor": The default text color in hex you want the nfo file to be rendered as
 │    (Sadly right now nfo2php only supports nfo files and not multi color ansi files.)
 │
-│    "screenColor": sets the background hex code color
+│    "screenColor": Sets the background hex code color
+│
+│    "title": and "description:": Are sort of self explanatory.
+│    They are the title that will appear in the title bar and in the META embed tag
+│    The description is just for the META tag. Description can be left blank ""
+│
+│    "icon": this is the image that will show for the favicon and the META embed tag
+│    You could leave this blank "" but it's not recommended.
+│    The icon does have to be an absolute url path otherwise the website embedding your tag
+│    wont know where to fetch the image from aka they dont know where /img/icon.png is on your site.
 │
 │    "customLinks": This is where it gets interesting. By default any links in your nfo like
 │    https://github.com/MobCat will get automatically converted to a link that can be clicked
@@ -82,6 +94,14 @@ This conversion is done in place and on the fly, so the original nfo file is not
 │    This NFO file was rendered with n͟f͟o͟2͟p͟h͟p͟ by MobCat
 │    I'd like it if you left this enabled, but it's your website not mine. So if you want to disable it
 └────that's fine to.
+
+[BUGS:]
+├────This is something that I overlooked untill just now.. And I feel really stupid for it
+│    nfo2php will only work with unicoded encoded nfo files. which is not the standed at all.
+│    I will fix this, as thats kinda the whole point, make it work with any random nfo file
+│    but for now you can just download the demo, and copy paste your nfo text into the demo
+│    to convert it. I find this works better then trying to get the text editor to convert the
+└────encoding automaticly.
 
 [TODO:]
 ├────This was meant as a fun weekend project but as all my projects do, it got out of hand.
