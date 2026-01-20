@@ -13,7 +13,7 @@ php rendering engine for ascii art nfo docs<br>
        \/\\\  \//\\\\\\  \/\\\          \///\\\__/\\\       /\\\/__________  \/\\\             \/\\\       \/\\\ \/\\\               
         \/\\\   \//\\\\\  \/\\\            \///\\\\\/       /\\\\\\\\\\\\\\\  \/\\\             \/\\\       \/\\\ \/\\\              
          \///     \/////   \///               \/////        \///////////////   \///              \///        \///  \///              
-nfo2php 20250917
+nfo2php 20260120
 By MobCat
 
 nfo2php is a simple rendering "engine" that will convert your nfo files and display them as text for a web page.
@@ -40,6 +40,7 @@ This conversion is done in place and on the fly, so the original nfo file is not
 │   lets look at the default config
 {
     "nfoPath": "razor1911.nfo",
+    "font": "vga",
     "textColor": "FFDF00",
     "screenColor": "222",
     "title": "nfo2php example",
@@ -55,6 +56,16 @@ This conversion is done in place and on the fly, so the original nfo file is not
 }
 │    "nfoPath": At the top we have the nfo file that will be loaded.
 │    If you don't want to rename your nfo to the same name as nfo2php.
+│
+│   "font": This is a custom font render option so ascii art will work on mobile
+│   the available fonts are vga, cga and null
+│   "font": "vga" = WebPlus_IBM_VGA_9x16.woff
+│   "font": "cga" = WebPlus_IBM_CGAthin.woff
+│   "font": ""    = Will default back to the font your browser uses to render pre tags.
+│   vga is set by default as cga is not 100% done yet. if you use null and default back to pre tag rendering
+│   this will brake ascii art rendering on mobile, normal text will still work though.
+│   You can ofc set up custom woff fonts for anything you like, just edit the @font-face in the index.php
+│   you can tune how the font is rendered with the .nfo-display.vga or .nfo-display.cga css.
 │
 │   "textColor": The default text color in hex you want the nfo file to be rendered as
 │    (Sadly right now nfo2php only supports nfo files and not multi color ansi files.)
