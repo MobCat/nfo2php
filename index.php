@@ -32,6 +32,7 @@ if (!file_exists($configFile)) {
     "nfoPath": "'.$nfoFilePath.'",
     "textColor": "FFDF00",
     "screenColor": "222",
+    "font": "vga",
     "title": "nfo2php example",
     "description": "Your description for META tag goes here",
     "icon": "https://mobcat.zip/BadRepack/icon.png",
@@ -69,9 +70,9 @@ if ($config === null) {
     die("Bad JSON config '".basename($configFile)."'.<br>Code: $jsonError: $jsonErrorMsg");
 }
 // Required configuration keys
-$requiredKeys = ['textColor', 
+$requiredKeys = ['font',
+                 'textColor', 
                  'screenColor',
-                 'screenColor', 
                  'title',
                  'description',
                  'icon',
@@ -90,6 +91,11 @@ if ($config['nfoPath'] != '' or $config['nfoPath'] != null) {
     $nfoFilePath = $config['nfoPath'];
 } else {
     $nfoFilePath = substr(basename($_SERVER['PHP_SELF']), 0, -4) . ".nfo";
+}
+
+$alowedFonts = ["cga", "vga", ""];
+if(!in_array($config['font'], $alowedFonts)) {
+    die("Invalid font config in ".basename($configFile).'<br>Your options are<br>"font": "vga"<br>"font": "cga"<br>"font": ""<br><br>You have chosen: '.$config['font']);
 }
 
 // User overide color config with user prefrence
@@ -227,7 +233,7 @@ if (file_exists($nfoFilePath)) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=1024, initial-scale=1.0, user-scalable=yes">
     <meta property="og:title" content="<?= $config['title'] ?>">
     <meta property='og:type' content='website' />
     <meta property='description' content='<?= $config['description'] ?>' />
@@ -242,7 +248,22 @@ if (file_exists($nfoFilePath)) {
     --text: #<?= $config['textColor'] ?>;
 }
 
+@font-face {
+    font-family: 'IBM_VGA';
+    src: url('https://raw.githubusercontent.com/MobCat/nfo2php/main/WebPlus_IBM_VGA_9x16.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'IBM_CGA';
+    src: url('https://raw.githubusercontent.com/MobCat/nfo2php/main/WebPlus_IBM_CGAthin.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
 body {
+    min-width: 800px;
     background-color: var(--screen);
     color: var(--text);
     margin: 0;
@@ -331,12 +352,25 @@ a:hover {
         
 .nfo-display {
     color: var(--text);
-    font-family: 'Courier New', monospace;
-    font-size: 14px;
     line-height: 1.0;
     white-space: pre;
     overflow-x: auto;
     padding: 15px;
+    letter-spacing: -0.9px;
+}
+/* Font-specific sizing */
+.nfo-display.vga {
+    font-family: 'IBM_VGA', monospace;
+    font-size: 16px;
+    line-height: 16px;
+    letter-spacing: -1px;
+}
+
+.nfo-display.cga {
+    font-family: 'IBM_CGA', monospace;
+    font-size: 8px;
+    line-height: 8px;
+    letter-spacing: -1px;
 }
 
 .error {
@@ -364,7 +398,7 @@ a:hover {
     </style>
 </head>
 <body>
-    <div class="nfo-display"><?php echo $nfoContent; ?></div>
+    <div class="nfo-display <?= $config['font'] ?>"><?php echo $nfoContent; ?></div>
     <?php 
         if ($config['downloadEnabled'] and file_exists($nfoFilePath)) { 
             echo "<a href='{$nfoFilePath}' download>Download this NFO</a><br>";
