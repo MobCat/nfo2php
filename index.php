@@ -10,7 +10,7 @@
        \/\\\  \//\\\\\\  \/\\\          \///\\\__/\\\       /\\\/__________  \/\\\             \/\\\       \/\\\ \/\\\               
         \/\\\   \//\\\\\  \/\\\            \///\\\\\/       /\\\\\\\\\\\\\\\  \/\\\             \/\\\       \/\\\ \/\\\              
          \///     \/////   \///               \/////        \///////////////   \///              \///        \///  \///              
-nfo2php 20250916
+nfo2php 20260120
 By MobCat
 
 nfo2php is a simple rendering "engine" that will convert your nfo files and display them as text for a web page.
@@ -209,7 +209,15 @@ function nfo2php($config, $content) {
 // Load and convert NFO content 
 $nfoContent = '';
 if (file_exists($nfoFilePath)) {
-    $nfoContent = nfo2php($config, file_get_contents($nfoFilePath));
+    $content = file_get_contents($nfoFilePath);
+    // Fix for OEM-US / CP437 encoding. If nfo is not formated like this
+    // then don't use whatever iconv spat out. 
+    $utf8Content = @iconv('CP437', 'UTF-8//IGNORE', $content);
+    if ($utf8Content === false) {
+        $nfoContent = nfo2php($config, $content);
+    } else {
+        $nfoContent = nfo2php($config, $utf8Content);
+    }
 } else {
     $nfoContent = "NFO file not found: " . $nfoFilePath;
 }
@@ -222,8 +230,9 @@ if (file_exists($nfoFilePath)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta property="og:title" content="<?= $config['title'] ?>">
     <meta property='og:type' content='website' />
-    <meta property='og:description' content='<?= $config['textColor'] ?>' />
-    <meta property="og:image" content="<?= $config['description'] ?>">
+    <meta property='description' content='<?= $config['description'] ?>' />
+    <meta property='og:description' content='<?= $config['description'] ?>' />
+    <meta property="og:image" content="<?= $config['icon'] ?>">
     <meta name="theme-color" content="#<?= $config['textColor'] ?>">
     <title><?= $config['title'] ?></title>
     <link rel="icon" type="image/png" href="<?= $config['icon'] ?>">
@@ -263,7 +272,7 @@ a:hover {
 
 .backward {
     font-style: italic;
-    transform: skewX(15deg);  /* Lean backwards instead of forwards */
+    transform: skewX(15deg); 
     display: inline-block;
 }
 
