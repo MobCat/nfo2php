@@ -95,13 +95,21 @@ This conversion is done in place and on the fly, so the original nfo file is not
 │    I'd like it if you left this enabled, but it's your website not mine. So if you want to disable it
 └────that's fine to.
 
-[BUGS:]
-├────This is something that I overlooked untill just now.. And I feel really stupid for it
-│    nfo2php will only work with unicoded encoded nfo files. which is not the standed at all.
-│    I will fix this, as thats kinda the whole point, make it work with any random nfo file
-│    but for now you can just download the demo, and copy paste your nfo text into the demo
-│    to convert it. I find this works better then trying to get the text editor to convert the
-└────encoding automaticly.
+[Cheat sheat:]
+├────A cheat cheat for the advanced formating nfo2php can do
+│    /*Italics a word*/ 
+│    \*Italics the other way word*\
+│    /^mirror a word^/
+│    /+Bold a word +/ 
+│    /-Strikeout a word-/ 
+│    /_underline a word_/
+│    /~corrupt a word~/ (click to view) It's like a spoiler tag from other platforms.  
+│    /!Invert the colors of a word!/ 
+│    
+│    You can even use more then one format code at a time
+│    /*/_/-ITALIC UNDERLINE SCRATCH*/_/-/
+│    /^/+MIRROR BOLD+/^/ 
+└────Don't forget you have some extra settings for links and embed meta tags in the config.json
 
 [TODO:]
 ├────This was meant as a fun weekend project but as all my projects do, it got out of hand.
